@@ -29,16 +29,18 @@ Constructing a SessionThrottle means setting the parameters.
 * `$sleep` - true/false for whether ->test() should ATTEMPT to always return true (by simply sleeping until the timelimit has passed). Even if sleep is true, the sleep may get interrupted and thus return false. You must check it the return value of `test`.
 
 Example use:
+````
     $login_limit = new SessionThrottle("login_bob");        // can have "login" throttles or "login_%username%" throttles... or even just an expensive process can be throttled by this.
     if($login_limit->test()) {
-    	if(!checkLogin($user, $pass)) {
-    		$login_limit->fail();
-    	} else {
-    		$login_limit->succeed(); // clear the timelimit
-    	}
+        if(!checkLogin($user, $pass)) {
+            $login_limit->fail();
+        } else {
+            $login_limit->succeed(); // clear the timelimit
+        }
     } else {
-    	showThrottleError();
+        showThrottleError();
     }
+````
 
 Future Work
 -----------

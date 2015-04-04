@@ -1,0 +1,24 @@
+{
+    "name": "gburtini/bfd",
+    "type": "library",
+    "description": "Brute force defense: rate limiting tools.",
+    "keywords": ["rate limiting", "brute force", "login", "throttling", "throttle", "rate limit", "limit"],
+    "homepage": "http://github.com/gburtini/PHP-Brute-Force-Defense",
+    "license": "GPL",
+    "authors": [
+        {
+            "name": "Giuseppe Burtini",
+            "email": "joe@truephp.com",
+            "homepage": "http://giuseppeburtini.com/",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": ">=5.4.0"
+    },
+    "autoload": {
+        "psr-0": {
+            "SessionThrottle": "src"
+        }
+    }
+}

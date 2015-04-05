@@ -30,6 +30,8 @@ Constructing a SessionThrottle means setting the parameters.
 
 _Example use:_
 ````
+use gburtini\bfd\SessionThrottle;
+
 $login_limit = new SessionThrottle("login_bob");        
 // can have "login" throttles or "login_%username%" throttles... or even just an expensive process can be throttled by this.
 if($login_limit->test()) {

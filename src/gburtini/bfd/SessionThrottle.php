@@ -44,12 +44,12 @@
 		protected $safe = 10; // the number of "harmless" checks
 		protected $upper = 20;
 		protected $rate = 1.3;	// the timeout grows a rate^n for failures n between safe and upper.
-		protected $sleep = false;
+		protected $sleep = true;
 		protected $sessionPrefix = "sessiontimeout_";
 
 		protected $minimumSleep = 0;
 		protected $maximumSleep = 0;
-		public function __construct($name, $safe = 10, $upper = 20, $rate=1.3, $sleep = false) {
+		public function __construct($name, $safe = 10, $upper = 20, $rate=1.3, $sleep = true) {
 			session_start();
 
 			if(!isset($_SESSION[$this->sessionPrefix . "fails"]))

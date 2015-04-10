@@ -38,7 +38,7 @@
 	*	logged in before successfully, deliver them a cookie that allows future login attempts to avoid or slowdown the
 	*	timeout as this is a lower risk path.
 	*/
-	use gburtini\bfd;
+	namespace gburtini\bfd;
 	class SessionThrottle {
 		protected $name;
 		protected $safe = 10; // the number of "harmless" checks

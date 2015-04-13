@@ -68,7 +68,7 @@
 
 			$timeout = min($this->maximumSleep,
 					max($this->minimumSleep,
-						exp($this->rate, max(0, ($i - $this->safe)))
+						pow($this->rate, max(0, ($i - $this->safe)))
 					   )
 				      );
 			return $timeout;

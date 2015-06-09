@@ -2,7 +2,10 @@
 	/**
 	 * SessionThrottle - provides exponential session-based rate limiting / throttling.
 	 *
-	 * Please be aware this only mitigates one attack vector: a single session brute forcing a protected event.
+	 * This provides backwards compatibility to the original interface. You should use the ThingThrottle directly for future implementations.
+	 *
+	 * Please be aware this only mitigates one attack vector: a single session brute forcing a protected event WHICH ACCEPTS SESSION COOKIES.
+	 * For any truly secure implementation, you should store this data server side and block on IP.
 	 *
 	 * All (important) parameters are passed within the constructor.
 	 *	__construct($name, $safe, $upper, $rate, $sleep)
@@ -10,15 +13,15 @@
 	 *		$safe - the number of failures a user gets "free" before they start to get rate limited, you can safely set this quite high for most login related applications.
 	 * 		$upper - the highest power of $rate to be used. Out of the box, this is 20 (with rate 1.3) meaning the highest timeout is 1.3^20 = 190 seconds.
 	 *		$rate - the base of the exponent used to calculate the time limit. By default, 1.3. Too large, and the throttler is too aggressive. Too small, and it won't be aggressive enough.
-	 *		$sleep - true/false for whether ->test() should ATTEMPT to always return true (by simply sleeping until the timelimit has passed). 
+	 *		$sleep - true/false for whether ->test() should ATTEMPT to always return true (by simply sleeping until the timelimit has passed).
 	 *				NOTE: even if sleep is true, the sleep may get interrupted and thus return false. You must ccheck it.
-	 * 
+	 *
 	 * Example use:
 	 * 	$login_limit = new SessionThrottle("login_bob");	// can have "login" throttles or "login_%username%" throttles... or even just an expensive process can be throttled by this.
 	 *	if($login_limit->test()) {
 	 * 		if(!checkLogin($user, $pass)) {
 	 *			$login_limit->fail();
-	 *		} else { 
+	 *		} else {
 	 *			$login_limit->succeed(); // clear the timelimit
 	 *		}
 	 *	} else {
@@ -39,7 +42,7 @@
 	*	timeout as this is a lower risk path.
 	*/
 	namespace gburtini\bfd;
-	class SessionThrottle {
+	class SessionThrottle extends ThingThrottle {
 		protected $name;
 		protected $safe = 10; // the number of "harmless" checks
 		protected $upper = 20;
@@ -50,70 +53,10 @@
 		protected $minimumSleep = 0;
 		protected $maximumSleep = 0;
 		public function __construct($name, $safe = 10, $upper = 20, $rate=1.3, $sleep = true) {
-			session_start();
-
-			if(!isset($_SESSION[$this->sessionPrefix . "fails"]))
-				$_SESSION[$this->sessionPrefix . "fails"] = 0;
-
 			$this->name = $name;
-			$this->safe = intval($safe);
-			$this->upper = intval($upper);
-			$this->rate = floatval($rate);
-			$this->sleep = (bool) $sleep;
-		}
-
-		protected function eq($i) {
-			if($i > $this->safe+$this->upper)
-				$i = $this->safe+$this->upper;
-
-			$timeout = min($this->maximumSleep,
-					max($this->minimumSleep,
-						pow($this->rate, max(0, ($i - $this->safe)))
-					   )
-				      );
-			return $timeout;
-		}
-
-		/**
-		 * fail() should be called when we want to increment the failure counter for this protected function. If failing
-		 * isn't the appropriate metaphor for your function, an alias increment() is provided.
-		 */
-		public function fail() {
-			$_SESSION[$this->sessionPrefix . "fails"]++;
-			$_SESSION[$this->sessionPrefix . "time"] = time();
-		}
-		public function increment() { return $this->fail(); }
-
-		public function succeed() {
-			$_SESSION[$this->sessionPrefix . "fails"] = 0;
-			unset($_SESSION[$this->sessionPrefix . "time"]);
-		}
-
-		/**
-		 * test() must be called -before- the protected function is. If it returns false, you should not call your
-		 * protected function. If it returns true, sufficient time has passed and the user is granted a new trial.
-		 *
-		 * Even if $this->sleep = true, you need to check the return type, as sleeps can be interrupted by platform
-		 * signals.
-		 */
-		public function test() {
-			// check if we need to sleep/wait. return accordingly.
-			if(!isset($_SESSION[$this->sessionPrefix . "time"]))
-				return true;
-
-			$earliest = $this->eq($_SESSION[$this->sessionPrefix . "fails"]) + $_SESSION[$this->sessionPrefix . "time"];
-			$now = time();
-			if($now < $earliest) {
-				if($this->sleep) {
-					// sleep the gap between now and then, if it successfully sleeps, return true.
-					if(sleep($earliest - $now) === 0) {
-						return true;
-					}
-					return false;
-				} else {
-					return false;
-				}
-			} else { return true; }
+			$this->storage = new SessionStorage($this->sessionPrefix);
+			$this->shape = new ExponentialShape($safe, $upper, $rate);
+			$this->sleep = $sleep;
 		}
 	}
 ?>

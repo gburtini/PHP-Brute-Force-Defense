@@ -12,7 +12,7 @@
   *				NOTE: even if sleep is true, the sleep may get interrupted and thus return false. You must ccheck it.
   *
   * Example use:
-  * $login_limit = new SessionThrottle("login_bob");	// can have "login" throttles or "login_%username%" throttles... or even just an expensive process can be throttled by this.
+  * $login_limit = new ThingThrottle("login_bob", new APCStorage("login"), new ExponentialShape());	// can have "login" throttles or "login_%username%" throttles... or even just an expensive process can be throttled by this.
   *	if($login_limit->test()) {
   * 		if(!checkLogin($user, $pass)) {
   *			$login_limit->fail();

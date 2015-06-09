@@ -1,7 +1,7 @@
 <?php
   namespace gburtini\bfd;
   class APCIPStorage extends APCStorage {
-    public function __construct($sessionPrefix, $ttl=604800) {
+    public function __construct($sessionPrefix="", $ttl=604800) {
       $sessionPrefix = $sessionPrefix . $this->getIP();
       return parent::__construct($sessionPrefix, $ttl);
     }

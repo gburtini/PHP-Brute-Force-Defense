@@ -2,7 +2,7 @@
   namespace gburtini\bfd;
   class SessionStorage implements Storage {
     protected $sessionPrefix;
-    public function __construct($sessionPrefix) {
+    public function __construct($sessionPrefix="") {
       session_start();
       $this->sessionPrefix = $sessionPrefix;
     }

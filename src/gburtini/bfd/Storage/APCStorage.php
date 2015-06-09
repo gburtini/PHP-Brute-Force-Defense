@@ -3,7 +3,7 @@
   class APCStorage implements Storage {
     protected $sessionPrefix;
     protected $ttl;
-    public function __construct($sessionPrefix, $ttl=604800) {
+    public function __construct($sessionPrefix="", $ttl=604800) {
       $this->sessionPrefix = $sessionPrefix;
       $this->ttl = $ttl;
     }

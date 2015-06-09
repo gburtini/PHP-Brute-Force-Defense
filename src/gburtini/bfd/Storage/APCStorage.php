@@ -1,5 +1,6 @@
 <?php
   namespace gburtini\bfd;
+  require_once dirname(__FILE__) . "/Storage.php";
   class APCStorage implements Storage {
     protected $sessionPrefix;
     protected $ttl;

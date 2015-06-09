@@ -1,5 +1,6 @@
 <?php
   namespace gburtini\bfd;
+  require_once dirname(__FILE__) . "/Storage.php";
   class SessionStorage implements Storage {
     protected $sessionPrefix;
     public function __construct($sessionPrefix="") {

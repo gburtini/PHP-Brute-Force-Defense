@@ -1,6 +1,5 @@
 <?php
   namespace gburtini\bfd;
-
   /*
   * ThingThrottle - provides a generalized throttling infrastructure.
   *

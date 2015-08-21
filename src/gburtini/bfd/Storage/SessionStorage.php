@@ -1,9 +1,13 @@
 <?php
   namespace gburtini\bfd;
+  require_once dirname(__FILE__) . "/Storage.php";
+
   class SessionStorage implements Storage {
     protected $sessionPrefix;
     public function __construct($sessionPrefix="") {
-      session_start();
+		if(session_id() == '' || !isset($_SESSION)) {
+			session_start();
+		}
       $this->sessionPrefix = $sessionPrefix;
     }
     public function store($key, $value) {

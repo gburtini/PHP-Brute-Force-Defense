@@ -42,6 +42,10 @@
 	*	timeout as this is a lower risk path.
 	*/
 	namespace gburtini\bfd;
+	use gburtini\bfd\SessionStorage;
+	use gburtini\bfd\ExponentialShape;
+	require_once dirname(__FILE__) . "/Storage/SessionStorage.php";
+	require_once dirname(__FILE__) . "/Shape/ExponentialShape.php";
 	class SessionThrottle extends ThingThrottle {
 		protected $name;
 		protected $safe = 10; // the number of "harmless" checks

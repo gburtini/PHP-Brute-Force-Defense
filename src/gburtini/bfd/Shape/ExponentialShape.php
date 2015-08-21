@@ -1,5 +1,6 @@
 <?php
   namespace gburtini\bfd;
+	require_once dirname(__FILE__) . "/Shape.php";
   class ExponentialShape implements Shape {
       protected $safe = 10; // the number of "harmless" checks
       protected $upper = 20;

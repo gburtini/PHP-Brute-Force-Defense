@@ -29,12 +29,12 @@
 		protected $name;
 		protected $storage;
 		protected $shape;
-    protected $sleep;
+		protected $sleep;
 		public function __construct($name, $storage, $shape, $sleep=true) {
-      $this->storage = $storage;
-      $this->shape = $shape;
+			$this->storage = $storage;
+			$this->shape = $shape;
 			$this->name = $name;
-      $this->sleep = (bool) $sleep;
+			$this->sleep = (bool) $sleep;
 		}
 
 		protected function eq($i) {
@@ -46,14 +46,14 @@
 		 * isn't the appropriate metaphor for your function, an alias increment() is provided.
 		 */
 		public function fail() {
-      $this->storage->store($this->name . "fails", $this->storage->get($this->name . "fails")+1);
-      $this->storage->store($this->name . "time", time());
+			$this->storage->store($this->name . "fails", $this->storage->get($this->name . "fails")+1);
+			$this->storage->store($this->name . "time", time());
 		}
 		public function increment() { return $this->fail(); }
 
 		public function succeed() {
-      $this->storage->store($this->name . "fails", 0);
-      $this->storage->delete($this->name . "time");
+			$this->storage->store($this->name . "fails", 0);
+			$this->storage->delete($this->name . "time");
 		}
 
 		/**

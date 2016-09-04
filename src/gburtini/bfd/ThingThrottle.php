@@ -29,7 +29,8 @@
 		protected $name;
 		protected $storage;
 		protected $shape;
-        protected $sleep;
+		protected $sleep;
+
 		public function __construct($name, $storage, $shape, $sleep=true) {
 			$this->storage = $storage;
 			$this->shape = $shape;

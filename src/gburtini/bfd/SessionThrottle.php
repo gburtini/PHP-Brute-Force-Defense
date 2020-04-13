@@ -45,7 +45,8 @@
 	require_once dirname(__FILE__) . "/Storage/SessionStorage.php";
 	require_once dirname(__FILE__) . "/Shape/ExponentialShape.php";
 	require_once dirname(__FILE__) . "/ThingThrottle.php";
-	class SessionThrottle extends ThingThrottle {
+    
+    class SessionThrottle extends ThingThrottle {
 		protected $name;
 		protected $safe = 10; // the number of "harmless" checks
 		protected $upper = 20;

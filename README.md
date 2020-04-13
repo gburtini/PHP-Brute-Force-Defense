@@ -1,6 +1,8 @@
 PHP Brute Force Defense Tools
 ============================
 
+**This hasn't been maintained in years. Use at your own risk and only with the expertise to build it yourself.**
+
 _A lightweight framework for mitigating brute force attacks in an online architecture._
 
 Right now, there is only one tool, a session-based rate limiter. It is very general and powerful, but there's a lot of work to do here.
@@ -26,7 +28,7 @@ Constructing a SessionThrottle means setting the parameters.
 * `$safe` - the number of failures a user gets "free" before they start to get rate limited, you can safely set this quite high for most login related applications.
 * `$upper` - the highest power of $rate to be used. Out of the box, this is 20 (with rate 1.3) meaning the highest timeout is 1.3^20 = 190 seconds.
 * `$rate` - the base of the exponent used to calculate the time limit. By default, 1.3. Too large, and the throttler is too aggressive. Too small, and it won't be aggressive enough.
-* `$sleep` - true/false for whether ->test() should ATTEMPT to always return true (by simply sleeping until the timelimit has passed). Even if sleep is true, the sleep may get interrupted and thus return false. You must check it the return value of `test`.
+* `$sleep` - true/false for whether ->test() should ATTEMPT to always return true (by simply sleeping until the timelimit has passed). Even if sleep is true, the sleep may get interrupted and thus return false. Merely sleeping will not prevent multiple requests for most use-cases. You must check it the return value of `test`.
 
 _Example use:_
 ````

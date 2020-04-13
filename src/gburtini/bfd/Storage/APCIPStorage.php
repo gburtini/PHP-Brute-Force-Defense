@@ -1,5 +1,6 @@
 <?php
   namespace gburtini\bfd;
+  require_once dirname(__FILE__) . "/APCStorage.php";
   class APCIPStorage extends APCStorage {
     public function __construct($sessionPrefix="", $ttl=604800) {
       $sessionPrefix = $sessionPrefix . $this->getIP();

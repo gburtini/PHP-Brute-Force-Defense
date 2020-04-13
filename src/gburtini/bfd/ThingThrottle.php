@@ -64,7 +64,7 @@
 		 */
 		public function test() {
 			// check if we need to sleep/wait. return accordingly.
-			if(null != $this->storage->get($this->name . "fails"))
+			if(null === $this->storage->get($this->name . "fails"))
 				return true;
 
 			$earliest = $this->eq($this->storage->get($this->name . "fails")) + $this->storage->get($this->name . "time");
